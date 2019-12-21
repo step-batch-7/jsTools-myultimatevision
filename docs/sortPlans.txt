@@ -1,0 +1,62 @@
+sort [-bcCdfghiRMmnrsuVz] [-k field1[,field2]] [-S memsize] [-T dir] [-t char] [-o output] [file ...]
+
+1.a) node sort.js fileName
+1.b) node sort.js file1Name file2Name file3Name
+2.a) node sort.js -o outputFile fileName
+2.b) node sort.js -o outputFile file1Name file2Name file3Name
+3.a) node sort.js -r fileName
+3.b) node sort.js -r file1Name file2Name file3Name
+4.a) node sort.js -u fileName
+4.b) node sort.js -u file1Name file2Name file3Name
+5.a) node sort.js -k 2 fileName
+5.b) node sort.js -k 2 file1Name file2Name file3Name
+6.a) node sort.js -n fileName
+6.b) node sort.js -n file1Name file2Name file3Name
+
+1.a) sort the data from file given in command line  
+   without arguments it will sort it as strings
+   it considered numbers also as strings
+        ---nagendra_sort_file_plan_01.txt
+        ---node sort.js number.txt
+        ---1
+           2 
+           3
+           4 
+           5
+           6
+           7
+           8
+           9
+
+1.b) sort the data from multiple files given in command line
+   without arguments it will sort it as strings
+   it considered numbers also as strings
+        ---nagendra_sort_file_plan_02.txt 
+        ---node sort.js file1.txt file2.txt file3.txt
+        ---1
+           2
+           3
+           4
+           5 
+           6 
+           7 
+           8 
+           9
+           a 
+           apple 
+           b 
+           ball 
+           c 
+           d 
+           e 
+           f 
+           g 
+           h 
+           hello 
+           run 
+
+2.a) Print the output to the output file instead of the standard output
+        ---nagendra_sort_file_ouput_option_plan_01.txt
+        --- node sort.js -o numbers.txt
+
+

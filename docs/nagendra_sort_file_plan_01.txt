@@ -1,0 +1,57 @@
+node sort.js numbers.txt
+
+output :---
+------
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+Individual tasks ----------------------------
+
+----1.a.1----
+lastStep :---
+--------
+outPut:-string /fileNotFound >>stderr
+formattedSortedList
+1
+2
+3
+4
+5
+6
+7
+8
+9
+input:-array of strings
+sortedList
+[1,2,3,4,5,6,7,8,9]
+name:-formatData
+
+----1.a.2----
+previous step :---
+-------------
+outPut:-array of strings
+sortedList
+[1,2,3,4,5,6,7,8,9]
+input:-array of strings
+unsortedList
+[2,4,3,1,5,9,7,8,6]
+name:-sortList
+
+----1.a.3----
+starting step :---
+-------------
+outPut:-array of strings /fileNotFound >>stderr
+unsortedList
+[2,4,3,1,5,9,7,8,6]
+input:-array of strings
+dataStorePath
+[numbers.txt]
+name:-loadData
+

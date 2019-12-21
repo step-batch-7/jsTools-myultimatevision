@@ -1,0 +1,71 @@
+---node sort.js file1.txt file2.txt file3.txt
+---output---
+   1
+   2
+   3
+   4
+   5 
+   6 
+   7 
+   8 
+   9
+   a 
+   apple 
+   b 
+   ball 
+   c 
+   d 
+   e 
+   f 
+   g 
+   h 
+   hello 
+   run 
+
+Individual tasks ----------------------------
+
+----1.b.1----
+lastStep :---
+--------
+output:-string /fileNotFound >>stderr
+formatted
+1
+2
+3
+4
+5
+6
+7
+8
+9
+apple
+ball
+e
+hello
+s
+input:-array of strings
+sortedList
+[1,2,3,4,5,6,7,8,9,apple,ball,e,hello,s]
+name:-formatData
+
+----1.b.2----
+previous step :---
+-------------
+output:-array of strings
+sortedList
+[1,2,3,4,5,6,7,8,9,apple,ball,e,hello,s]
+input:-array of strings
+unsortedList
+[2,4,3,1,5,9,7,8,6,s,e,hello,ball,apple]
+name:-sortList
+
+----1.b.3----
+starting step :---
+-------------
+output:-array of strings /fileNotFound >>stderr
+unsortedList
+[2,4,3,1,5,9,7,8,6,s,e,hello,ball,apple]
+input:-array of strings
+dataStorePaths
+[file1.txt file2.txt,file3.txt]
+name:-loadData
