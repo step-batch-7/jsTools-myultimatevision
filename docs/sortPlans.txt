@@ -1,17 +1,34 @@
-sort [-bcCdfghiRMmnrsuVz] [-k field1[,field2]] [-S memsize] [-T dir] [-t char] [-o output] [file ...]
+sort [-bcCdfghiRMmnrsuVz] [-k field] [-n numeric] [-r reverse] [-u unique] [-o output outputFile] [file ...]
 
 1.a) node sort.js fileName
 1.b) node sort.js file1Name file2Name file3Name
+1.c) node sort.js 
+       standard input
+
 2.a) node sort.js -o outputFile fileName
 2.b) node sort.js -o outputFile file1Name file2Name file3Name
+2.c) node sort.js -o
+       standard input
+
 3.a) node sort.js -r fileName
 3.b) node sort.js -r file1Name file2Name file3Name
+3.c) node sort.js -r
+       standard input
+
 4.a) node sort.js -u fileName
 4.b) node sort.js -u file1Name file2Name file3Name
+4.c) node sort.js -u
+       standard input
+
 5.a) node sort.js -k 2 fileName
 5.b) node sort.js -k 2 file1Name file2Name file3Name
+5.c) node sort.js -k 2
+       standard input
+
 6.a) node sort.js -n fileName
 6.b) node sort.js -n file1Name file2Name file3Name
+6.c) node sort.js -n
+       standard input
 
 1.a) sort the data from file given in command line  
    without arguments it will sort it as strings
