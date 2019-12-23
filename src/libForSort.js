@@ -1,9 +1,9 @@
-const formatData = function(formattedData) {
-  return formattedData.join("\n");
+const joinLines = function(sortedData) {
+  return sortedData.join("\n");
 };
 
-const sortData = function(unFormattedData) {
-  return unFormattedData.sort();
+const sortData = function(unSortedData) {
+  return unSortedData.sort();
 };
 
 const loadData = function(loader, isFileExists, filePath) {
@@ -11,4 +11,4 @@ const loadData = function(loader, isFileExists, filePath) {
   return loadedData && loadedData.split("\n");
 };
 
-module.exports = { formatData, sortData, loadData };
+module.exports = { joinLines, sortData, loadData };
