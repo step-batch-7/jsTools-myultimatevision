@@ -40,7 +40,7 @@ outPut:-array of strings
 sortedList
 [1,2,3,4,5,6,7,8,9]
 input:-array of strings
-unsortedList
+unSortedList
 [2,4,3,1,5,9,7,8,6]
 name:-sortList
 
@@ -48,7 +48,7 @@ name:-sortList
 starting step :---
 -------------
 outPut:-array of strings /fileNotFound >>stderr
-unsortedList
+unSortedList
 [2,4,3,1,5,9,7,8,6]
 input:-array of strings
 dataStorePath

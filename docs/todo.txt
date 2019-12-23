@@ -37,7 +37,7 @@ check connections mocha sort.js-libForSort.js
 
 tasks :-
 -----
-getFormatted data
+sort
 loadData
-sortData
-formatData
+performSort
+joinLines

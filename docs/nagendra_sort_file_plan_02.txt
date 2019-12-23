@@ -55,7 +55,7 @@ output:-array of strings
 sortedList
 [1,2,3,4,5,6,7,8,9,apple,ball,e,hello,s]
 input:-array of strings
-unsortedList
+unSortedList
 [2,4,3,1,5,9,7,8,6,s,e,hello,ball,apple]
 name:-sortList
 
@@ -63,7 +63,7 @@ name:-sortList
 starting step :---
 -------------
 output:-array of strings /fileNotFound >>stderr
-unsortedList
+unSortedList
 [2,4,3,1,5,9,7,8,6,s,e,hello,ball,apple]
 input:-array of strings
 dataStorePaths
