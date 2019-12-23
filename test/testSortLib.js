@@ -1,21 +1,7 @@
 const assert = require("chai").assert;
-const { joinLines, performSort, loadData, sort } = require("../src/sortLib");
+const { performSort, loadData, sort } = require("../src/sortLib");
 
-describe("libForSort", function() {
-  describe("joinLines", function() {
-    it("should create an empty string when empty array is given", function() {
-      assert.strictEqual(joinLines([]), "");
-    });
-    it("should create a string without new line when single element array is given", function() {
-      assert.strictEqual(joinLines(["formatData"]), "formatData");
-    });
-    it("should create a string with new line when array is given", function() {
-      const actual = joinLines(["loadData", "performSort", "formatData"]);
-      const expected = "loadData\nperformSort\nformatData";
-      assert.strictEqual(actual, expected);
-    });
-  });
-
+describe("sortLib", function() {
   describe("performSort", function() {
     it("should give empty array when empty array is given", function() {
       assert.deepStrictEqual(performSort([]), []);

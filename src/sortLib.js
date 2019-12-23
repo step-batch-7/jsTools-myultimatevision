@@ -1,7 +1,3 @@
-const joinLines = function(sorted) {
-  return sorted.join("\n");
-};
-
 const performSort = function(unSorted) {
   return unSorted.sort();
 };
@@ -18,4 +14,4 @@ const sort = function(cmdArgs, loader, doesFileExist) {
   return performSort(unSorted.split("\n")).join("\n");
 };
 
-module.exports = { joinLines, performSort, loadData, sort };
+module.exports = { performSort, loadData, sort };
