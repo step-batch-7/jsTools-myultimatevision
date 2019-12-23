@@ -2,4 +2,8 @@ const formatData = function(formattedData) {
   return formattedData.join("\n");
 };
 
-module.exports = { formatData };
+const sortData = function(unFormattedData) {
+  return unFormattedData.sort();
+};
+
+module.exports = { formatData, sortData };
