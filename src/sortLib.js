@@ -11,7 +11,8 @@ const sort = function(cmdArgs, reader, doesFileExist) {
   const unSorted = loadData(reader, filepath, doesFileExist);
   const error = new Error(`sort : ${filepath} file not found`).message;
   if (!unSorted) return error;
-  return performSort(unSorted.split("\n")).join("\n");
+  const sorted = performSort(unSorted.trim().split("\n"));
+  return sorted.join("\n");
 };
 
 module.exports = { performSort, loadData, sort };
