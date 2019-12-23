@@ -5,9 +5,9 @@ sort [-bcCdfghiRMmnrsuVz] [-k field] [-n numeric] [-r reverse] [-u unique] [-o o
 1.c) node sort.js 
        standard input
 
-2.a) node sort.js -o outputFile fileName
-2.b) node sort.js -o outputFile file1Name file2Name file3Name
-2.c) node sort.js -o
+2.a) node sort.js -n fileName
+2.b) node sort.js -n file1Name file2Name file3Name
+2.c) node sort.js -n
        standard input
 
 3.a) node sort.js -r fileName
@@ -15,20 +15,22 @@ sort [-bcCdfghiRMmnrsuVz] [-k field] [-n numeric] [-r reverse] [-u unique] [-o o
 3.c) node sort.js -r
        standard input
 
-4.a) node sort.js -u fileName
-4.b) node sort.js -u file1Name file2Name file3Name
-4.c) node sort.js -u
+4.a) node sort.js -k 2 fileName
+4.b) node sort.js -k 2 file1Name file2Name file3Name
+4.c) node sort.js -k 2
        standard input
 
-5.a) node sort.js -k 2 fileName
-5.b) node sort.js -k 2 file1Name file2Name file3Name
-5.c) node sort.js -k 2
+5.a) node sort.js -u fileName
+5.b) node sort.js -u file1Name file2Name file3Name
+5.c) node sort.js -u
        standard input
 
-6.a) node sort.js -n fileName
-6.b) node sort.js -n file1Name file2Name file3Name
-6.c) node sort.js -n
+6.a) node sort.js -o outputFile fileName
+6.b) node sort.js -o outputFile file1Name file2Name file3Name
+6.c) node sort.js -o
        standard input
+
+
 
 1.a) sort the data from file given in command line  
    without arguments it will sort it as strings
@@ -72,8 +74,39 @@ sort [-bcCdfghiRMmnrsuVz] [-k field] [-n numeric] [-r reverse] [-u unique] [-o o
            hello 
            run 
 
-2.a) Print the output to the output file instead of the standard output
-        ---nagendra_sort_file_ouput_option_plan_01.txt
-        --- node sort.js -o numbers.txt
+1.c) sort the data given in command line
+        ---nagendra_sort_file_plan_02.txt 
+        ---g
+           run
+           2
+           4
+           b
+           1
+           apple
+           9
+           8
+           apple
+           h
+           a
+           6
+           5
+
+        ---node sort.js 
+          
+        ---1
+           2
+           4
+           5 
+           6 
+           8 
+           9
+           a 
+           apple 
+           b 
+           g 
+           h 
+           run 
+
+
 
 
