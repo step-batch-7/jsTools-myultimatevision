@@ -9,8 +9,8 @@ const loadData = function(reader, filePath, doesFileExist) {
 const sort = function(cmdArgs, reader, doesFileExist) {
   const filepath = cmdArgs[2];
   const unSorted = loadData(reader, filepath, doesFileExist);
-  const error = new Error(`sort : ${filepath} file not found`).message;
-  if (!unSorted) return error;
+  const error = new Error(`sort : ${filepath} no such file or directory`);
+  if (!unSorted) return error.message;
   const sorted = performSort(unSorted.trim().split("\n"));
   return sorted.join("\n");
 };
