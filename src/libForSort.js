@@ -6,4 +6,9 @@ const sortData = function(unFormattedData) {
   return unFormattedData.sort();
 };
 
-module.exports = { formatData, sortData };
+const loadData = function(loader, isFileExists, filePath) {
+  let loadedData = isFileExists(filePath) && loader(filePath, "utf8");
+  return loadedData && loadedData.split("\n");
+};
+
+module.exports = { formatData, sortData, loadData };

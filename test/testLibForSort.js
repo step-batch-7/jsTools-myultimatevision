@@ -1,5 +1,5 @@
 const assert = require("chai").assert;
-const { formatData, sortData } = require("../src/libForSort");
+const { formatData, sortData, loadData } = require("../src/libForSort");
 
 describe("libForSort", function() {
   describe("formatData", function() {
@@ -32,9 +32,41 @@ describe("libForSort", function() {
     });
 
     it("should sort the array when array is given", function() {
-      const actual = sortData(["hello", "android", 1, 2, 11]);
-      const expected = [1, 11, 2, "android", "hello"];
+      const actual = sortData([10, 3, 1, 2, 11]);
+      const expected = [1, 10, 11, 2, 3];
       assert.deepStrictEqual(actual, expected);
+    });
+  });
+
+  describe("loadData", function() {
+    it("should load data if file path is present ", function() {
+      const loader = function(filePath, encoding) {
+        assert.isTrue(filePath == "path");
+        assert.isTrue(encoding == "utf8");
+        return "hello";
+      };
+
+      const isFileExists = function(filePath) {
+        assert.isTrue(filePath == "path");
+        return true;
+      };
+      const actual = loadData(loader, isFileExists, "path");
+      assert.deepStrictEqual(actual, ["hello"]);
+    });
+
+    it("should return false if file path is not present ", function() {
+      const loader = function(filePath, encoding) {
+        assert.isTrue(filePath == "path");
+        assert.isTrue(encoding == "utf8");
+        return "hello";
+      };
+
+      const isFileExists = function(filePath) {
+        assert.isTrue(filePath == "path");
+        return false;
+      };
+      const actual = loadData(loader, isFileExists, "path");
+      assert.strictEqual(actual, false);
     });
   });
 });

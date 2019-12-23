@@ -1,7 +1,5 @@
 const getFormattedText = require("");
 
-const main = function() {
-  getFormattedText(process.argv);
-};
+const main = function() {};
 
 main();
