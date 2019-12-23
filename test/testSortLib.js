@@ -26,7 +26,7 @@ describe("sortLib", function() {
 
   describe("loadData", function() {
     it("should load data if file path is present ", function() {
-      const reader = function(filePath, encoding) {
+      const read = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "hello";
@@ -37,12 +37,12 @@ describe("sortLib", function() {
         return true;
       };
 
-      const actual = loadData(reader, "path", doesFileExist);
+      const actual = loadData(read, "path", doesFileExist);
       assert.strictEqual(actual, "hello");
     });
 
     it("should return error if file path is not present ", function() {
-      const reader = function(filePath, encoding) {
+      const read = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "";
@@ -53,14 +53,14 @@ describe("sortLib", function() {
         return false;
       };
 
-      const actual = loadData(reader, "path", doesFileExist);
+      const actual = loadData(read, "path", doesFileExist);
       assert.isFalse(actual);
     });
   });
 
   describe("sort", function() {
     it("should return sorted data when single file is given", function() {
-      const reader = function(filePath, encoding) {
+      const read = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "welcome\nto\nthoughtworks";
@@ -72,13 +72,16 @@ describe("sortLib", function() {
       };
 
       const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, reader, doesFileExist);
-      const expected = "thoughtworks\nto\nwelcome";
-      assert.strictEqual(actual, expected);
+      const actual = sort(cmdArgs, { read, doesFileExist });
+      const expected = {
+        std: "thoughtworks\nto\nwelcome",
+        writer: process.stdout
+      };
+      assert.deepStrictEqual(actual, expected);
     });
 
     it("should throw error when file is given is not present", function() {
-      const reader = function(filePath, encoding) {
+      const read = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "";
@@ -90,8 +93,9 @@ describe("sortLib", function() {
       };
 
       const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, reader, doesFileExist);
-      assert.strictEqual(actual, "sort : path no such file or directory");
+      const actual = sort(cmdArgs, { read, doesFileExist });
+      assert.strictEqual(actual.std, "sort : path no such file or directory");
+      assert.strictEqual(actual.writer, process.stderr);
     });
   });
 });

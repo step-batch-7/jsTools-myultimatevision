@@ -2,7 +2,9 @@ const sort = require("./src/sortLib").sort;
 const fs = require("fs");
 
 const main = function(args) {
-  const sorted = sort(args, fs.readFileSync, fs.existsSync);
-  process.stdout.write(sorted);
+  const read = fs.readFileSync;
+  const doesFileExist = fs.existsSync;
+  const { std, writer } = sort(args, { read, doesFileExist });
+  writer.write(std);
 };
 main(process.argv);
