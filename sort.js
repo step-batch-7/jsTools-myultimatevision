@@ -1,4 +1,4 @@
-const sort = require("./src/sort");
+const sort = require("./src/sortLib").sort;
 const fs = require("fs");
 
 const main = function(args) {
