@@ -94,7 +94,7 @@ describe("sortLib", function() {
 
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { read, doesFileExist });
-      assert.strictEqual(actual.error, "sort : path no such file or directory");
+      assert.strictEqual(actual.error, "sort : No such file or directory");
       assert.strictEqual(actual.sorted, "");
     });
   });
