@@ -2,13 +2,13 @@ const performSort = function(content) {
   return content.sort();
 };
 
-const loadData = function(read, filePath, doesFileExist) {
+const loadData = function(filePath, { read, doesFileExist }) {
   return doesFileExist(filePath) && read(filePath, "utf8");
 };
 
-const sort = function(cmdArgs, { read, doesFileExist }) {
+const sort = function(cmdArgs, fileSystem) {
   const filepath = cmdArgs[2];
-  const content = loadData(read, filepath, doesFileExist);
+  const content = loadData(filepath, fileSystem);
   const errormessage = `sort : No such file or directory`;
   if (content === false) return { error: errormessage, sorted: "" };
   const sorted = performSort(content.split("\n"));

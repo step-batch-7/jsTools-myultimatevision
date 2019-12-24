@@ -37,7 +37,7 @@ describe("sortLib", function() {
         return true;
       };
 
-      const actual = loadData(read, "path", doesFileExist);
+      const actual = loadData("path", { read, doesFileExist });
       assert.strictEqual(actual, "hello");
     });
 
@@ -53,7 +53,7 @@ describe("sortLib", function() {
         return false;
       };
 
-      const actual = loadData(read, "path", doesFileExist);
+      const actual = loadData("path", { read, doesFileExist });
       assert.isFalse(actual);
     });
   });
