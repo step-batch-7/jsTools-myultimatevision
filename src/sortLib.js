@@ -10,7 +10,7 @@ const sort = function(cmdArgs, { read, doesFileExist }) {
   const filepath = cmdArgs[2];
   const content = loadData(read, filepath, doesFileExist);
   const errormessage = `sort : No such file or directory`;
-  if (!content) return { error: errormessage, sorted: "" };
+  if (content === false) return { error: errormessage, sorted: "" };
   const sorted = performSort(content.split("\n"));
   return { sorted: sorted.join("\n"), error: "" };
 };
