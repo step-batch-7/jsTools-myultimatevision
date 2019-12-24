@@ -10,9 +10,12 @@ const sort = function(cmdArgs, { read, doesFileExist }) {
   const filepath = cmdArgs[2];
   const content = loadData(read, filepath, doesFileExist);
   const errormessage = `sort : ${filepath} no such file or directory`;
-  if (!content) return { std: errormessage, writer: "error" };
+  if (!content) return { std: errormessage, resultType: "error" };
   const sorted = performSort(content.split("\n"));
-  return { std: sorted.join("\n"), writer: "output" };
+  return { std: sorted.join("\n"), resultType: "output" };
 };
 
-module.exports = { performSort, loadData, sort };
+const getWriter = function(writers, resultType) {
+  return writers[resultType];
+};
+module.exports = { performSort, loadData, sort, getWriter };

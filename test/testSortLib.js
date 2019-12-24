@@ -1,5 +1,5 @@
 const assert = require("chai").assert;
-const { performSort, loadData, sort } = require("../src/sortLib");
+const { performSort, loadData, sort, getWriter } = require("../src/sortLib");
 
 describe("sortLib", function() {
   describe("performSort", function() {
@@ -75,7 +75,7 @@ describe("sortLib", function() {
       const actual = sort(cmdArgs, { read, doesFileExist });
       const expected = {
         std: "thoughtworks\nto\nwelcome",
-        writer: "output"
+        resultType: "output"
       };
       assert.deepStrictEqual(actual, expected);
     });
@@ -95,7 +95,19 @@ describe("sortLib", function() {
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { read, doesFileExist });
       assert.strictEqual(actual.std, "sort : path no such file or directory");
-      assert.strictEqual(actual.writer, "error");
+      assert.strictEqual(actual.resultType, "error");
+    });
+  });
+
+  describe("getWriter", function() {
+    it("should give stdout when resultType is output", function() {
+      const writers = { error: process.stderr, output: process.stdout };
+      assert.strictEqual(getWriter(writers, "output"), process.stdout);
+    });
+
+    it("should give stderr when resultType is error", function() {
+      const writers = { error: process.stderr, output: process.stdout };
+      assert.strictEqual(getWriter(writers, "error"), process.stderr);
     });
   });
 });
