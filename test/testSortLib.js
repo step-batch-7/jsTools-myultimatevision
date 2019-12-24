@@ -26,53 +26,53 @@ describe("sortLib", function() {
 
   describe("loadData", function() {
     it("should load data if file path is present ", function() {
-      const read = function(filePath, encoding) {
+      const readFileSync = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "hello";
       };
 
-      const doesFileExist = function(filePath) {
+      const existsSync = function(filePath) {
         assert.isTrue(filePath == "path");
         return true;
       };
 
-      const actual = loadData("path", { read, doesFileExist });
+      const actual = loadData("path", { readFileSync, existsSync });
       assert.strictEqual(actual, "hello");
     });
 
     it("should return error if file path is not present ", function() {
-      const read = function(filePath, encoding) {
+      const readFileSync = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "";
       };
 
-      const doesFileExist = function(filePath) {
+      const existsSync = function(filePath) {
         assert.isTrue(filePath == "path");
         return false;
       };
 
-      const actual = loadData("path", { read, doesFileExist });
+      const actual = loadData("path", { readFileSync, existsSync });
       assert.isFalse(actual);
     });
   });
 
   describe("sort", function() {
     it("should return sorted data when single file is given", function() {
-      const read = function(filePath, encoding) {
+      const readFileSync = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "welcome\nto\nthoughtworks";
       };
 
-      const doesFileExist = function(filePath) {
+      const existsSync = function(filePath) {
         assert.isTrue(filePath == "path");
         return true;
       };
 
       const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, { read, doesFileExist });
+      const actual = sort(cmdArgs, { readFileSync, existsSync });
       const expected = {
         sorted: "thoughtworks\nto\nwelcome",
         error: ""
@@ -81,19 +81,19 @@ describe("sortLib", function() {
     });
 
     it("should throw error when file is given is not present", function() {
-      const read = function(filePath, encoding) {
+      const readFileSync = function(filePath, encoding) {
         assert.isTrue(filePath == "path");
         assert.isTrue(encoding == "utf8");
         return "";
       };
 
-      const doesFileExist = function(filePath) {
+      const existsSync = function(filePath) {
         assert.isTrue(filePath == "path");
         return false;
       };
 
       const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, { read, doesFileExist });
+      const actual = sort(cmdArgs, { readFileSync, existsSync });
       assert.strictEqual(actual.error, "sort : No such file or directory");
       assert.strictEqual(actual.sorted, "");
     });

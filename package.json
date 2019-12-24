@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/step-batch-7/jsTools-myultimatevision/issues"
   },
-  "homepage": "https://github.com/step-batch-7/jsTools-myultimatevision#readme",
+  "homepage": "https://github.com/step-batch-7/jsTools-myultimatevision#readFileSyncme",
   "dependencies": {
     "chai": "^4.2.0",
     "truncate": "^2.1.0"

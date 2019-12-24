@@ -5,9 +5,7 @@ const fs = require("fs");
 const { stdout, stderr } = require("process");
 
 const main = function(args) {
-  const read = fs.readFileSync;
-  const doesFileExist = fs.existsSync;
-  const { sorted, error } = sort(args, { read, doesFileExist });
+  const { error, sorted } = sort(args, fs);
   stdout.write(sorted);
   stderr.write(error);
 };

@@ -2,8 +2,8 @@ const performSort = function(content) {
   return content.sort();
 };
 
-const loadData = function(filePath, { read, doesFileExist }) {
-  return doesFileExist(filePath) && read(filePath, "utf8");
+const loadData = function(filePath, { readFileSync, existsSync }) {
+  return existsSync(filePath) && readFileSync(filePath, "utf8");
 };
 
 const sort = function(cmdArgs, fileSystem) {
