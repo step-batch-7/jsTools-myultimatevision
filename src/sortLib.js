@@ -1,5 +1,5 @@
-const performSort = function(unSorted) {
-  return unSorted.sort();
+const performSort = function(content) {
+  return content.sort();
 };
 
 const loadData = function(read, filePath, doesFileExist) {
@@ -9,10 +9,10 @@ const loadData = function(read, filePath, doesFileExist) {
 const sort = function(cmdArgs, { read, doesFileExist }) {
   const filepath = cmdArgs[2];
   const content = loadData(read, filepath, doesFileExist);
-  const error = new Error(`sort : ${filepath} no such file or directory`);
-  if (!content) return { std: error.message, writer: process.stderr };
-  const sorted = performSort(content.trim().split("\n"));
-  return { std: sorted.join("\n"), writer: process.stdout };
+  const errormessage = `sort : ${filepath} no such file or directory`;
+  if (!content) return { std: errormessage, writer: "error" };
+  const sorted = performSort(content.split("\n"));
+  return { std: sorted.join("\n"), writer: "output" };
 };
 
 module.exports = { performSort, loadData, sort };
