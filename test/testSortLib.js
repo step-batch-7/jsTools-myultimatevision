@@ -74,8 +74,8 @@ describe("sortLib", function() {
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { read, doesFileExist });
       const expected = {
-        std: "thoughtworks\nto\nwelcome",
-        resultType: "output"
+        sorted: "thoughtworks\nto\nwelcome",
+        error: ""
       };
       assert.deepStrictEqual(actual, expected);
     });
@@ -94,20 +94,8 @@ describe("sortLib", function() {
 
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { read, doesFileExist });
-      assert.strictEqual(actual.std, "sort : path no such file or directory");
-      assert.strictEqual(actual.resultType, "error");
-    });
-  });
-
-  describe("getWriter", function() {
-    it("should give stdout when resultType is output", function() {
-      const writers = { error: process.stderr, output: process.stdout };
-      assert.strictEqual(getWriter(writers, "output"), process.stdout);
-    });
-
-    it("should give stderr when resultType is error", function() {
-      const writers = { error: process.stderr, output: process.stdout };
-      assert.strictEqual(getWriter(writers, "error"), process.stderr);
+      assert.strictEqual(actual.error, "sort : path no such file or directory");
+      assert.strictEqual(actual.sorted, "");
     });
   });
 });
