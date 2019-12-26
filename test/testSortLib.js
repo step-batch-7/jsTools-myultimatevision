@@ -14,9 +14,9 @@ describe("sortLib", function() {
         assert.isTrue(filePath == "path");
         return true;
       };
-
+      let error;
       const actual = loadData("path", { readFileSync, existsSync });
-      assert.deepStrictEqual(actual, { content: "hello" });
+      assert.deepStrictEqual(actual, { content: "hello", error });
     });
 
     it("should return error if file path is not present ", function() {
@@ -30,10 +30,10 @@ describe("sortLib", function() {
         assert.isTrue(filePath == "path");
         return false;
       };
-
+      let content;
       const error = "sort : No such file or directory";
       const actual = loadData("path", { readFileSync, existsSync });
-      assert.deepStrictEqual(actual, { error });
+      assert.deepStrictEqual(actual, { error, content });
     });
 
     it("should return false if file path is not present ", function() {
@@ -47,10 +47,10 @@ describe("sortLib", function() {
         assert.isTrue(filePath == undefined);
         return false;
       };
-      let filePath;
+      let filePath, content;
       const actual = loadData(filePath, { readFileSync, existsSync });
       const error = "sort : No such file or directory";
-      assert.deepStrictEqual(actual, { error });
+      assert.deepStrictEqual(actual, { error, content });
     });
   });
 

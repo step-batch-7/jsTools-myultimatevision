@@ -1,8 +1,9 @@
 const loadData = function(filePath, { readFileSync, existsSync }) {
-  const error = `sort : No such file or directory`;
-  if (!existsSync(filePath)) return { error };
+  let content, error;
+  const errorMessage = `sort : No such file or directory`;
+  if (!existsSync(filePath)) return { error: errorMessage, content };
   content = readFileSync(filePath, "utf8");
-  return { content };
+  return { content, error };
 };
 
 const sort = function(cmdArgs, fileSystem) {
