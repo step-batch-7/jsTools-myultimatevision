@@ -16,7 +16,7 @@ describe("sortLib", function() {
       };
 
       const actual = loadData("path", { readFileSync, existsSync });
-      assert.strictEqual(actual, "hello");
+      assert.deepStrictEqual(actual, { content: "hello" });
     });
 
     it("should return error if file path is not present ", function() {
@@ -31,8 +31,9 @@ describe("sortLib", function() {
         return false;
       };
 
+      const error = "sort : No such file or directory";
       const actual = loadData("path", { readFileSync, existsSync });
-      assert.isTrue(actual instanceof Error);
+      assert.deepStrictEqual(actual, { error });
     });
 
     it("should return false if file path is not present ", function() {
@@ -48,7 +49,8 @@ describe("sortLib", function() {
       };
       let filePath;
       const actual = loadData(filePath, { readFileSync, existsSync });
-      assert.isTrue(actual instanceof Error);
+      const error = "sort : No such file or directory";
+      assert.deepStrictEqual(actual, { error });
     });
   });
 
@@ -68,7 +70,7 @@ describe("sortLib", function() {
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { readFileSync, existsSync });
       const expected = {
-        sorted: "thoughtworks\nto\nwelcome",
+        sortedLines: "thoughtworks\nto\nwelcome",
         error: ""
       };
       assert.deepStrictEqual(actual, expected);
@@ -88,10 +90,7 @@ describe("sortLib", function() {
 
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const expected = {
-        sorted: "",
-        error: ""
-      };
+      const expected = { sortedLines: "", error: "" };
       assert.deepStrictEqual(actual, expected);
     });
 
@@ -109,7 +108,7 @@ describe("sortLib", function() {
 
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const expected = { sorted: "welcome to thoughtworks", error: "" };
+      const expected = { sortedLines: "welcome to thoughtworks", error: "" };
       assert.deepStrictEqual(actual, expected);
     });
 
@@ -127,8 +126,8 @@ describe("sortLib", function() {
 
       const cmdArgs = ["node", "sort.js", "path"];
       const actual = sort(cmdArgs, { readFileSync, existsSync });
-      assert.strictEqual(actual.error, "sort : No such file or directory");
-      assert.strictEqual(actual.sorted, "");
+      const error = "sort : No such file or directory";
+      assert.deepStrictEqual(actual, { error, sortedLines: "" });
     });
 
     it("should throw error when file is not given", function() {
@@ -145,8 +144,8 @@ describe("sortLib", function() {
 
       const cmdArgs = ["node", "sort.js"];
       const actual = sort(cmdArgs, { readFileSync, existsSync });
-      assert.strictEqual(actual.error, "sort : No such file or directory");
-      assert.strictEqual(actual.sorted, "");
+      const error = "sort : No such file or directory";
+      assert.deepStrictEqual(actual, { sortedLines: "", error });
     });
   });
 });
