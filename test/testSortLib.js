@@ -32,7 +32,7 @@ describe("sortLib", function() {
       };
 
       const actual = loadData("path", { readFileSync, existsSync });
-      assert.isFalse(actual);
+      assert.isTrue(actual instanceof Error);
     });
 
     it("should return false if file path is not present ", function() {
@@ -48,7 +48,7 @@ describe("sortLib", function() {
       };
       let filePath;
       const actual = loadData(filePath, { readFileSync, existsSync });
-      assert.isFalse(actual);
+      assert.isTrue(actual instanceof Error);
     });
   });
 
