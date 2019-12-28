@@ -1,4 +1,4 @@
-node sort.js ../numbers.txt
+node sort.js ./appTest/numbers.txt
 1
 2
 3

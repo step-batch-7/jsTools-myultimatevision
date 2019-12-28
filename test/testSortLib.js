@@ -1,151 +1,86 @@
-const assert = require("chai").assert;
-const { performSort, loadData, sort, getWriter } = require("../src/sortLib");
+const assert = require('chai').assert;
+const { performSort } = require('../src/sortLib');
 
-describe("sortLib", function() {
-  describe("loadData", function() {
-    it("should load data if file path is present ", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "hello";
-      };
+describe('performSort', function () {
+  it('should sort data when given file has more than one line', function () {
+    const readFile = function (filePath, encoding, callBack) {
+      assert.isTrue(filePath === 'path');
+      assert.isTrue(encoding === 'utf8');
+      callBack(undefined, 'welcome\nto\nthoughtworks');
+    };
 
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == "path");
-        return true;
+    const write = function (actual) {
+      const expected = {
+        sortedContent: 'thoughtworks\nto\nwelcome',
+        error: ''
       };
-      let error;
-      const actual = loadData("path", { readFileSync, existsSync });
-      assert.deepStrictEqual(actual, { content: "hello", error });
-    });
+      assert.deepStrictEqual(actual, expected);
+    };
 
-    it("should return error if file path is not present ", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "";
-      };
-
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == "path");
-        return false;
-      };
-      let content;
-      const error = "sort : No such file or directory";
-      const actual = loadData("path", { readFileSync, existsSync });
-      assert.deepStrictEqual(actual, { error, content });
-    });
-
-    it("should return false if file path is not present ", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "";
-      };
-
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == undefined);
-        return false;
-      };
-      let filePath, content;
-      const actual = loadData(filePath, { readFileSync, existsSync });
-      const error = "sort : No such file or directory";
-      assert.deepStrictEqual(actual, { error, content });
-    });
+    const cmdArgs = 'path';
+    assert.strictEqual(performSort(cmdArgs, readFile, write));
   });
 
-  describe("sort", function() {
-    it("should return sorted data when given file has more than one line", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "welcome\nto\nthoughtworks";
-      };
-
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == "path");
-        return true;
-      };
-
-      const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const expected = {
-        sortedLines: "thoughtworks\nto\nwelcome",
-        error: ""
-      };
+  it('should sort empty string when given file is empty', function () {
+    const readFile = function (filePath, encoding, sort) {
+      assert.isTrue(filePath === 'path');
+      assert.isTrue(encoding === 'utf8');
+      sort(undefined, '');
+    };
+    const write = function (actual) {
+      const expected = { sortedContent: '', error: '' };
       assert.deepStrictEqual(actual, expected);
+    };
+
+    const cmdArgs = 'path';
+    assert.strictEqual(performSort(cmdArgs, readFile, write));
+  });
+
+  it('should sort same string taken from file when file have single line',
+    function () {
+      const readFile = function (filePath, encoding, callBack) {
+        assert.isTrue(filePath === 'path');
+        assert.isTrue(encoding === 'utf8');
+        callBack(undefined, 'welcome to thoughtworks');
+      };
+      const write = function (actual) {
+        const sortedContent = 'welcome to thoughtworks';
+        const expected = { sortedContent, error: '' };
+        assert.deepStrictEqual(actual, expected);
+      };
+
+      const cmdArgs = 'path';
+      assert.strictEqual(performSort(cmdArgs, readFile, write));
     });
 
-    it("should return empty string when given file is empty", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "";
-      };
-
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == "path");
-        return true;
-      };
-
-      const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const expected = { sortedLines: "", error: "" };
+  it('should throw error when file is given is not present', function () {
+    const readFile = function (filePath, encoding, sort) {
+      assert.isTrue(filePath === 'path');
+      assert.isTrue(encoding === 'utf8');
+      sort(new Error('sort : No such file or directory'), undefined);
+    };
+    const write = function (actual) {
+      const error = 'sort : No such file or directory';
+      const expected = { sortedContent: '', error };
       assert.deepStrictEqual(actual, expected);
-    });
+    };
 
-    it("should return same string taken from file when file have single line", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "welcome to thoughtworks";
-      };
+    const cmdArgs = 'path';
+    assert.strictEqual(performSort(cmdArgs, readFile, write));
+  });
 
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == "path");
-        return true;
-      };
-
-      const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const expected = { sortedLines: "welcome to thoughtworks", error: "" };
+  it('should throw error when file is not given', function () {
+    const readFile = function (filePath, encoding, sort) {
+      assert.isTrue(filePath === '');
+      assert.isTrue(encoding === 'utf8');
+      sort(new Error('sort : No such file or directory'), undefined);
+    };
+    const write = function (actual) {
+      const error = 'sort : No such file or directory';
+      const expected = { sortedContent: '', error };
       assert.deepStrictEqual(actual, expected);
-    });
-
-    it("should throw error when file is given is not present", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "";
-      };
-
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == "path");
-        return false;
-      };
-
-      const cmdArgs = ["node", "sort.js", "path"];
-      const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const error = "sort : No such file or directory";
-      assert.deepStrictEqual(actual, { error, sortedLines: "" });
-    });
-
-    it("should throw error when file is not given", function() {
-      const readFileSync = function(filePath, encoding) {
-        assert.isTrue(filePath == "path");
-        assert.isTrue(encoding == "utf8");
-        return "";
-      };
-
-      const existsSync = function(filePath) {
-        assert.isTrue(filePath == undefined);
-        return false;
-      };
-
-      const cmdArgs = ["node", "sort.js"];
-      const actual = sort(cmdArgs, { readFileSync, existsSync });
-      const error = "sort : No such file or directory";
-      assert.deepStrictEqual(actual, { sortedLines: "", error });
-    });
+    };
+    let cmdArgs;
+    assert.strictEqual(performSort(cmdArgs, readFile, write));
   });
 });

@@ -1,18 +1,20 @@
-const loadData = function(filePath, { readFileSync, existsSync }) {
-  let content, error;
-  const errorMessage = `sort : No such file or directory`;
-  if (!existsSync(filePath)) return { error: errorMessage, content };
-  content = readFileSync(filePath, "utf8");
-  return { content, error };
+const sortLines = function (content) {
+  const lines = content.split('\n');
+  return lines.sort().join('\n');
 };
 
-const sort = function(cmdArgs, fileSystem) {
-  const filepath = cmdArgs[2];
-  const { error, content } = loadData(filepath, fileSystem);
-  if (error != undefined) return { error, sortedLines: "" };
-  const sorted = content.split("\n").sort();
-  const sortedLines = sorted.join("\n");
-  return { sortedLines, error: "" };
+const read = function (err, content) {
+  let sortedContent = '';
+  let error = '';
+  if (err) { error = 'sort : No such file or directory'; }
+  else { sortedContent = sortLines(content); }
+  this.onComplete({ error, sortedContent });
 };
 
-module.exports = { loadData, sort };
+const performSort = function (args, readFile, onComplete) {
+  const filePath = args || '';
+  const readContent = read.bind({ onComplete });
+  readFile(filePath, 'utf8', readContent);
+};
+
+module.exports = { performSort };
