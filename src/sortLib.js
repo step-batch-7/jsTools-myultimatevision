@@ -1,5 +1,4 @@
-const sortLines = function (content) {
-  const lines = content.split('\n');
+const sortLines = function (lines) {
   return lines.sort().join('\n');
 };
 
@@ -9,7 +8,8 @@ const read = function (err, content) {
     this.onComplete({ error, sortedContent: '' });
     return;
   }
-  const sortedContent = sortLines(content);
+  const lines = content.split('\n');
+  const sortedContent = sortLines(lines);
   this.onComplete({ error: '', sortedContent });
 };
 

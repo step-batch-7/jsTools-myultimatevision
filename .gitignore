@@ -2,4 +2,3 @@ node_modules
 .nyc_output
 .eslintrc.json
 .DS_Store
-.DS_Store
