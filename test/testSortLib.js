@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 const sinon = require('sinon');
-const { performSort } = require('../src/sortLib');
+const { read, performSort } = require('../src/sortLib');
 
 describe('performSort', function () {
   it('should sort data when given file has more than one line', function () {
@@ -53,4 +53,31 @@ describe('performSort', function () {
     performSort(cmdArgs, readFile, onComplete);
     assert.isTrue(onComplete.calledWith(expected));
   });
+});
+
+describe('read', function () {
+  it('should call oncomplete with error when file is not present', function () {
+    const onComplete = sinon.spy();
+    const error = 'sort : No such file or directory';
+    const expected = { sortedContent: '', error };
+    read.call({ onComplete }, true, undefined);
+    assert.isTrue(onComplete.calledWith(expected));
+  });
+
+  it('should call oncomplete with no error and empty string when file is empty',
+    function () {
+      const onComplete = sinon.spy();
+      const expected = { sortedContent: '', error: '' };
+      read.call({ onComplete }, undefined, '');
+      assert.isTrue(onComplete.calledWith(expected));
+    });
+
+  it('should call oncomplete with no error string  when file is not empty',
+    function () {
+      const onComplete = sinon.spy();
+      const sortedContent = 'thoughtworks\nto\nwelcome';
+      const expected = { sortedContent, error: '' };
+      read.call({ onComplete }, undefined, 'welcome\nto\nthoughtworks');
+      assert.isTrue(onComplete.calledWith(expected));
+    });
 });

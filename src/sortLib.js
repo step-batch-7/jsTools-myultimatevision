@@ -19,4 +19,4 @@ const performSort = function (args, readFile, onComplete) {
   readFile(filePath, 'utf8', readContent);
 };
 
-module.exports = { performSort };
+module.exports = { read, performSort };
