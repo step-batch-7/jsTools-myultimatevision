@@ -42,17 +42,6 @@ describe('performSort', function () {
     performSort(cmdArgs, { readFile }, onComplete);
     assert.isTrue(onComplete.calledWith(expected));
   });
-
-  // it('should throw error when file is not given', function () {
-
-  //   const readFile = sinon.fake.yields(true, undefined);
-  //   const onComplete = sinon.spy();
-  //   const error = 'sort : No such file or directory';
-  //   const expected = { sortedContent: '', error };
-  //   let cmdArgs;
-  //   performSort(cmdArgs, { readFile }, onComplete);
-  //   assert.isTrue(onComplete.calledWith(expected));
-  // });
 });
 
 describe('read', function () {
