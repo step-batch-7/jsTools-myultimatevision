@@ -1,15 +1,15 @@
 'use strict';
-const fs = require('fs');
-const { stdout, stderr } = process;
+const { readFile } = require('fs');
+const { stdin, stdout, stderr } = process;
 const { performSort } = require('./src/sortLib');
 
-const write = function ({ error, sortedContent }) {
+const onComplete = function ({ error, sortedContent }) {
   stdout.write(sortedContent);
   stderr.write(error);
 };
 
 const main = function (args) {
   const pathPosition = 2;
-  performSort(args[pathPosition], fs.readFile, write);
+  performSort(args[pathPosition], { stdin, readFile }, onComplete);
 };
 main(process.argv);

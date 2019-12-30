@@ -1,7 +1,7 @@
 node sort.js fileName
-node sort.js file1Name file2Name file3Name
 node sort.js 
        standard input
+node sort.js file1Name file2Name file3Name
 
 node sort.js -n fileName
 node sort.js -n file1Name file2Name file3Name
@@ -28,8 +28,8 @@ node sort.js -o outputFile file1Name file2Name file3Name
 node sort.js -o
        standard input
 
-v.0.1
-=======
+---done---v.0.1
+=========================
 create files and folders ---- src test sort.js libForSort.js testLibForSort.js
 modules ---- chai
 npm init
@@ -41,3 +41,15 @@ sort
 loadData
 performSort
 joinLines
+=========================
+
+v.0.2
+=========================
+node sort.js 
+       standard input
+tasks:-
+-----
+modifying tests
+asynchronous input
+getStandardContent
+write function for output and error

@@ -13,10 +13,26 @@ const read = function (err, content) {
   this.onComplete({ error: '', sortedContent });
 };
 
-const performSort = function (args, readFile, onComplete) {
-  const filePath = args || '';
-  const readContent = read.bind({ onComplete });
-  readFile(filePath, 'utf8', readContent);
+const readStandardContent = function ({ stdin }, onComplete) {
+  const lines = [];
+  stdin.on('data', (data) => {
+    const line = data.toString().trim();
+    lines.push(line);
+  });
+  stdin.on('end', () => {
+    const sortedContent = sortLines(lines);
+    onComplete({ sortedContent, error: '' });
+  });
 };
 
-module.exports = { read, performSort };
+const performSort = function (args, readers, onComplete) {
+  const filePath = args || '';
+  const readContent = read.bind({ onComplete });
+  if (filePath) {
+    readers.readFile(filePath, 'utf8', readContent);
+    return;
+  }
+  readStandardContent(readers, onComplete);
+};
+
+module.exports = { sortLines, read, performSort };
