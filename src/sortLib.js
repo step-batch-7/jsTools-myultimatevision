@@ -1,34 +1,33 @@
-const sortLines = function (lines) {
+const sortContent = function (content) {
+  const lines = content.split('\n');
   return lines.sort().join('\n');
 };
 
-const read = function (err, content) {
-  let error = '', sortedContent = '';
-  if (err) {
-    error = 'sort : No such file or directory';
-  } else {
-    sortedContent = sortLines(content.split('\n'));
-  }
-  this.onComplete({ error, sortedContent });
+const parseOptions = function (cmdLineArgs) {
+  const [, , filePath] = cmdLineArgs;
+  return { filePath };
 };
 
-const readStandardContent = function ({ stdin }, onComplete) {
-  const lines = [];
-  stdin.setEncoding('utf8');
-  stdin.on('data', (data) => lines.push(data.trimRight()));
-  stdin.on('end', () => {
-    onComplete({ sortedContent: sortLines(lines), error: '' });
+const chooseInputStream = function (filePath, stdin, createReadStream) {
+  return filePath ? createReadStream(filePath) : stdin;
+};
+
+const readContent = function (stream, onComplete) {
+  const error = 'sort : No such file or directory';
+  let content = '';
+  stream.setEncoding('utf8');
+  stream.on('error', () => onComplete({ error, sortedContent: '' }));
+  stream.on('data', (data) => { content = content.concat(data); });
+  stream.on('end', () => {
+    onComplete({ sortedContent: sortContent(content), error: '' });
   });
 };
 
-const performSort = function (args, readers, onComplete) {
-  const filePath = args || '';
-  const readContent = read.bind({ onComplete });
-  if (filePath) {
-    readers.readFile(filePath, 'utf8', readContent);
-    return;
-  }
-  readStandardContent(readers, onComplete);
+const performSort = function (inputStream, onComplete) {
+  readContent(inputStream, onComplete);
 };
 
-module.exports = { sortLines, read, performSort, readStandardContent };
+module.exports = {
+  parseOptions, sortContent, chooseInputStream,
+  performSort, readContent
+};
