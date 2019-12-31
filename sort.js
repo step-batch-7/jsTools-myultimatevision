@@ -9,7 +9,7 @@ const onComplete = function ({ error, sortedContent }) {
 };
 
 const main = function (args) {
-  const pathPosition = 2;
-  performSort(args[pathPosition], { stdin, readFile }, onComplete);
+  const [, , filePath] = args;
+  performSort(filePath, { stdin, readFile }, onComplete);
 };
 main(process.argv);

@@ -3,25 +3,21 @@ const sortLines = function (lines) {
 };
 
 const read = function (err, content) {
+  let error = '', sortedContent = '';
   if (err) {
-    const error = 'sort : No such file or directory';
-    this.onComplete({ error, sortedContent: '' });
-    return;
+    error = 'sort : No such file or directory';
+  } else {
+    sortedContent = sortLines(content.split('\n'));
   }
-  const lines = content.split('\n');
-  const sortedContent = sortLines(lines);
-  this.onComplete({ error: '', sortedContent });
+  this.onComplete({ error, sortedContent });
 };
 
 const readStandardContent = function ({ stdin }, onComplete) {
   const lines = [];
-  stdin.on('data', (data) => {
-    const line = data.toString().trim();
-    lines.push(line);
-  });
+  stdin.setEncoding('utf8');
+  stdin.on('data', (data) => lines.push(data.trimRight()));
   stdin.on('end', () => {
-    const sortedContent = sortLines(lines);
-    onComplete({ sortedContent, error: '' });
+    onComplete({ sortedContent: sortLines(lines), error: '' });
   });
 };
 
@@ -35,4 +31,4 @@ const performSort = function (args, readers, onComplete) {
   readStandardContent(readers, onComplete);
 };
 
-module.exports = { sortLines, read, performSort };
+module.exports = { sortLines, read, performSort, readStandardContent };
