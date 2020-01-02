@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint src test",
     "test": "eslint src test && mocha",
-    "appTests": "eslint src test &&./runAppTests.sh appTest/*.test",
-    "allTests": "eslint src test && mocha &&./runAppTests.sh appTest/*.test"
+    "apptests": "eslint src test &&./runAppTests.sh appTest/*.test",
+    "alltests": "eslint src test && mocha &&./runAppTests.sh appTest/*.test"
   },
   "repository": {
     "type": "git",
