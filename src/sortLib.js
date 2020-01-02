@@ -24,7 +24,9 @@ const performSort = function (stream, onComplete) {
   stream.on('error', (err) => {
     onComplete({ error: ERRORS[err.code], sortedContent: '' });
   });
-  stream.on('data', (data) => { content = content.concat(data); });
+  stream.on('data', (data) => {
+    content = content.concat(data);
+  });
   stream.on('end', () => {
     onComplete({ sortedContent: sortContent(content), error: '' });
   });
