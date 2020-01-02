@@ -1,28 +1,6 @@
 const { assert } = require('chai');
 const sinon = require('sinon');
-const {
-  sortContent,
-  parseOptions,
-  createStream,
-  performSort
-} = require('../src/sortLib');
-
-describe('sortContent', function () {
-  it('should return empty string when empty string is given', function () {
-    assert.strictEqual(sortContent(''), '');
-  });
-
-  it('should return same string in  array when string do not have new line',
-    function () {
-      assert.strictEqual(sortContent('step'), 'step');
-    });
-
-  it('should return same string in  array when array is given',
-    function () {
-      const actual = sortContent('step\nthoughtworks\n ');
-      assert.strictEqual(actual, ' \nstep\nthoughtworks');
-    });
-});
+const { parseOptions, createStream, performSort } = require('../src/sortLib');
 
 describe('parseOptions', function () {
   it('should return undefined when file was not given', function () {

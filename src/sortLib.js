@@ -33,4 +33,4 @@ const performSort = function (stream, onComplete) {
 };
 
 
-module.exports = { parseOptions, sortContent, createStream, performSort };
+module.exports = { parseOptions, createStream, performSort };
