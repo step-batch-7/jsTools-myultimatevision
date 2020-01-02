@@ -4,7 +4,6 @@ const {
   sortContent,
   parseOptions,
   chooseInputStream,
-  readContent,
   performSort
 } = require('../src/sortLib');
 
@@ -39,88 +38,28 @@ describe('parseOptions', function () {
 
 describe('chooseInputStream', function () {
   it('should return stream when filepath is not defined', function () {
-    const stream = sinon.fake();
+    const createStdin = sinon.fake();
     const createReadStream = sinon.fake();
-    const actual = chooseInputStream(undefined, stream, createReadStream);
-    assert.strictEqual(actual, stream);
+    const actual = chooseInputStream(undefined, createStdin, createReadStream);
+    assert.strictEqual(actual, createStdin());
   });
 
   it('should return createReadStream when filepath is defined', function () {
-    const stream = sinon.fake();
+    const createStdin = sinon.fake();
     const createReadStream = sinon.fake();
-    const actual = chooseInputStream('file_to_sort.txt', stream, createReadStream);
-    assert.strictEqual(actual, createReadStream('file_to_sort.txt'));
+    const actual = chooseInputStream('file.txt', createStdin, createReadStream);
+    assert.strictEqual(actual, createReadStream('file.txt'));
   });
 });
-
-
-
-
-
-
-describe('readContent', function () {
-  it('should call oncomplete with error when file is not present', function () {
-    const onComplete = sinon.spy();
-    const error = 'sort : No such file or directory';
-    const expectedParameters = { sortedContent: '', error };
-    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
-    readContent(stream, onComplete);//testing function
-    stream.on.firstCall.args[1]();
-    assert.strictEqual(stream.on.firstCall.args[0], 'error');
-    assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith(expectedParameters));
-  });
-
-  it('should call oncomplete with no error and empty string when file is empty',
-    function () {
-      const onComplete = sinon.spy();
-      const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
-      const expectedParameters = { sortedContent: '', error: '' };
-      readContent(stream, onComplete);//testing function
-      stream.on.secondCall.args[1]('');
-      stream.on.thirdCall.args[1]();
-      assert.isTrue(stream.setEncoding.calledWith('utf8'));
-      assert.isTrue(onComplete.calledWith(expectedParameters));
-    });
-
-  it('should call oncomplete with sorted data  when file is not empty',
-    function () {
-      const onComplete = sinon.spy();
-      const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
-      const sortedContent = 'thoughtworks\nto\nwelcome';
-      const expectedParameters = { sortedContent, error: '' };
-      readContent(stream, onComplete);//testing function
-      stream.on.secondCall.args[1]('welcome\nto\nthoughtworks');
-      stream.on.thirdCall.args[1]();
-      assert.isTrue(stream.setEncoding.calledWith('utf8'));
-      assert.isTrue(onComplete.calledWith(expectedParameters));
-    });
-});
-
-
-
-
 
 describe('performSort', function () {
-  it('should sort data when given file has more than one line', function () {
-    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
-    const onComplete = sinon.spy();
-    const sortedContent = 'thoughtworks\nto\nwelcome';
-    const expectedParameters = { error: '', sortedContent };
-    performSort(stream, onComplete);//testing function
-    stream.on.secondCall.args[1]('thoughtworks\nto\nwelcome');
-    stream.on.thirdCall.args[1]();
-    assert.strictEqual(stream.on.secondCall.args[0], 'data');
-    assert.strictEqual(stream.on.thirdCall.args[0], 'end');
-    assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith(expectedParameters));
-  });
-
   it('should sort empty string when given file is empty', function () {
     const onComplete = sinon.spy();
     const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
     const expectedParameters = { error: '', sortedContent: '' };
+
     performSort(stream, onComplete);//testing function
+
     stream.on.secondCall.args[1]('');
     stream.on.thirdCall.args[1]();
     assert.strictEqual(stream.on.secondCall.args[0], 'data');
@@ -134,7 +73,9 @@ describe('performSort', function () {
       const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
       const onComplete = sinon.spy();
       const sortedContent = 'welcome to thoughtworks';
+
       performSort(stream, onComplete);//testing function
+
       stream.on.secondCall.args[1]('welcome to thoughtworks');
       stream.on.thirdCall.args[1]();
       assert.strictEqual(stream.on.secondCall.args[0], 'data');
@@ -143,27 +84,75 @@ describe('performSort', function () {
       assert.isTrue(onComplete.calledWith({ error: '', sortedContent }));
     });
 
-  it('should throw error when file given is not present', function () {
+  it('should sort data when given file has more than one line', function () {
+    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
+    const onComplete = sinon.spy();
+    const sortedContent = 'thoughtworks\nto\nwelcome';
+    const expectedParameters = { error: '', sortedContent };
+
+    performSort(stream, onComplete);//testing function
+
+    stream.on.secondCall.args[1]('thoughtworks\nto\nwelcome');
+    stream.on.thirdCall.args[1]();
+    assert.strictEqual(stream.on.secondCall.args[0], 'data');
+    assert.strictEqual(stream.on.thirdCall.args[0], 'end');
+    assert.isTrue(stream.setEncoding.calledWith('utf8'));
+    assert.isTrue(onComplete.calledWith(expectedParameters));
+  });
+
+
+
+  it('should throw file not present error when file is not present', () => {
     const onComplete = sinon.spy();
     const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
-    const error = 'sort : No such file or directory';
+    const error = 'sort: No such file or directory';
+
     performSort(stream, onComplete); //testing function
-    stream.on.firstCall.args[1]();
+
+    stream.on.firstCall.args[1]({ code: 'ENOENT' });
     assert.strictEqual(stream.on.firstCall.args[0], 'error');
     assert.isTrue(stream.setEncoding.calledWith('utf8'));
     assert.isTrue(onComplete.calledWith({ sortedContent: '', error }));
   });
 
-  /* eslint max-statements:[0]*/
+  it('should throw  is a directory error when file is not present', () => {
+    const onComplete = sinon.spy();
+    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
+    const error = 'sort: Is a directory';
+
+    performSort(stream, onComplete); //testing function
+
+    stream.on.firstCall.args[1]({ code: 'EISDIR' });
+    assert.strictEqual(stream.on.firstCall.args[0], 'error');
+    assert.isTrue(stream.setEncoding.calledWith('utf8'));
+    assert.isTrue(onComplete.calledWith({ sortedContent: '', error }));
+  });
+
+  it('should throw permission denied error when file is not present', () => {
+    const onComplete = sinon.spy();
+    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
+    const error = 'sort: permission denied';
+
+    performSort(stream, onComplete); //testing function
+
+    stream.on.firstCall.args[1]({ code: 'EACCES' });
+    assert.strictEqual(stream.on.firstCall.args[0], 'error');
+    assert.isTrue(stream.setEncoding.calledWith('utf8'));
+    assert.isTrue(onComplete.calledWith({ sortedContent: '', error }));
+  });
+
   it('should read from standard input and sort data when file is not given',
-    function () {
+    () => {
       const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
       const onComplete = sinon.spy();
       const sortedContent = 'lines\nsort';
+
       performSort(stream, onComplete);//testing function
+
       stream.on.secondCall.args[1]('sort\n');
       stream.on.secondCall.args[1]('lines');
       stream.on.thirdCall.args[1]();
+
       assert.strictEqual(stream.on.secondCall.args[0], 'data');
       assert.strictEqual(stream.on.thirdCall.args[0], 'end');
       assert.isTrue(stream.on.calledThrice);

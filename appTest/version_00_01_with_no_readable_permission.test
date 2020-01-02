@@ -1,0 +1,2 @@
+touch ./appTest/sample.txt &&chmod -r ./appTest/sample.txt && node sort.js ./appTest/sample.txt && rm ./appTest/sample.txt 
+sort: permission denied

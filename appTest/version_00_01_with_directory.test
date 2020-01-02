@@ -1,0 +1,2 @@
+node sort.js ./appTest/sample.dir
+sort: Is a directory
