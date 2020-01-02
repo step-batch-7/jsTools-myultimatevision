@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
     "lint": "eslint src test",
-    "appTests": "mocha&&./runAppTests.sh appTest/*.test"
+    "test": "eslint src test && mocha",
+    "appTests": "eslint src test &&./runAppTests.sh appTest/*.test",
+    "allTests": "eslint src test && mocha &&./runAppTests.sh appTest/*.test"
   },
   "repository": {
     "type": "git",
