@@ -14,7 +14,7 @@ const parseOptions = function (cmdLineArgs) {
   return { filePath };
 };
 
-const chooseInputStream = function (filePath, createStdin, createReadStream) {
+const createStream = function (filePath, createStdin, createReadStream) {
   return filePath ? createReadStream(filePath) : createStdin();
 };
 
@@ -32,6 +32,6 @@ const performSort = function (stream, onComplete) {
 
 
 module.exports = {
-  parseOptions, sortContent, chooseInputStream,
+  parseOptions, sortContent, createStream,
   performSort
 };

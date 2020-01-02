@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const {
   sortContent,
   parseOptions,
-  chooseInputStream,
+  createStream,
   performSort
 } = require('../src/sortLib');
 
@@ -36,19 +36,21 @@ describe('parseOptions', function () {
   });
 });
 
-describe('chooseInputStream', function () {
+describe('createStream', function () {
   it('should return stream when filepath is not defined', function () {
-    const createStdin = sinon.fake();
+    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
+    const createStdin = sinon.fake.returns(stream);
     const createReadStream = sinon.fake();
-    const actual = chooseInputStream(undefined, createStdin, createReadStream);
-    assert.strictEqual(actual, createStdin());
+    const actual = createStream(undefined, createStdin, createReadStream);
+    assert.strictEqual(actual, stream);
   });
 
   it('should return createReadStream when filepath is defined', function () {
+    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
     const createStdin = sinon.fake();
-    const createReadStream = sinon.fake();
-    const actual = chooseInputStream('file.txt', createStdin, createReadStream);
-    assert.strictEqual(actual, createReadStream('file.txt'));
+    const createReadStream = sinon.fake.returns(stream);
+    const actual = createStream('file.txt', createStdin, createReadStream);
+    assert.strictEqual(actual, stream);
   });
 });
 
