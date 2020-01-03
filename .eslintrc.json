@@ -87,10 +87,7 @@
             ],
             "rules": {
                 "no-magic-numbers": "off",
-                "max-statements": [
-                    "error",
-                    15
-                ]
+                "max-statements": "off"
             }
         }
     ]

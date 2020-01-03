@@ -38,6 +38,7 @@ describe('performSort', function () {
     onComplete = sinon.spy();
     stream = { on: sinon.fake(), setEncoding: sinon.fake() };
   });
+
   it('should sort empty string when given file is empty', () => {
     const expectedParameters = { error: '', sortedContent: '' };
 
