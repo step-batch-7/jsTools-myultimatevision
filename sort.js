@@ -1,6 +1,6 @@
 'use strict';
 const { createReadStream } = require('fs');
-const { stdin, stdout, stderr } = process;
+const { stdin, stdout, stderr, argv } = process;
 const { createStream, parseOptions, performSort } = require('./src/sortLib');
 
 const write = function ({ error, sortedContent }) {
@@ -9,9 +9,9 @@ const write = function ({ error, sortedContent }) {
 };
 
 const main = function (args) {
-  const { filePath } = parseOptions(args);
   const createStdin = () => stdin;
+  const { filePath } = parseOptions(args);
   const stream = createStream(filePath, createStdin, createReadStream);
   performSort(stream, write);
 };
-main(process.argv);
+main(argv);

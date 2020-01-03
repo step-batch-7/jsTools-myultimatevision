@@ -33,9 +33,12 @@ describe('createStream', function () {
 });
 
 describe('performSort', function () {
+  let onComplete, stream;
+  beforeEach(() => {
+    onComplete = sinon.spy();
+    stream = { on: sinon.fake(), setEncoding: sinon.fake() };
+  });
   it('should sort empty string when given file is empty', () => {
-    const onComplete = sinon.spy();
-    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
     const expectedParameters = { error: '', sortedContent: '' };
 
     performSort(stream, onComplete);// testing function
@@ -49,8 +52,6 @@ describe('performSort', function () {
   });
 
   it('should sort same string taken from file when file have a line', () => {
-    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
-    const onComplete = sinon.spy();
     const sortedContent = 'welcome to thoughtworks';
 
     performSort(stream, onComplete);// testing function
@@ -64,8 +65,6 @@ describe('performSort', function () {
   });
 
   it('should sort data when given file has more than one line', () => {
-    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
-    const onComplete = sinon.spy();
     const sortedContent = 'thoughtworks\nto\nwelcome';
     const expectedParameters = { error: '', sortedContent };
 
@@ -80,8 +79,6 @@ describe('performSort', function () {
   });
 
   it('should throw file not present error when file is not present', () => {
-    const onComplete = sinon.spy();
-    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
     const error = 'sort: No such file or directory';
 
     performSort(stream, onComplete);// testing function
@@ -93,8 +90,6 @@ describe('performSort', function () {
   });
 
   it('should throw  is a directory error when file is not present', () => {
-    const onComplete = sinon.spy();
-    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
     const error = 'sort: Is a directory';
 
     performSort(stream, onComplete);// testing function
@@ -106,8 +101,6 @@ describe('performSort', function () {
   });
 
   it('should throw permission denied error when file is not present', () => {
-    const onComplete = sinon.spy();
-    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
     const error = 'sort: permission denied';
 
     performSort(stream, onComplete);// testing function
@@ -119,8 +112,6 @@ describe('performSort', function () {
   });
 
   it('should read standard input and sort data when file is not given', () => {
-    const stream = { setEncoding: sinon.fake(), on: sinon.fake() };
-    const onComplete = sinon.spy();
     const sortedContent = 'lines\nsort';
 
     performSort(stream, onComplete);// testing function
