@@ -43,14 +43,24 @@ performSort
 joinLines
 =========================
 
-v.0.2
+---done---v.0.2
 =========================
 node sort.js 
        standard input
 tasks:-
 -----
 modifying tests
----done---asynchronous input
----done---getStandardContent
----done--- write function for output and error
-update tests
+---done--- asynchronous input
+---done--- getStandardContent
+---done--- write function for writing output and error
+---done--- update tests
+
+v.0.3
+=========================
+node sort.js file1 file2 file3
+
+tasks:-
+-----
+refacter parseOptions
+bind streams to parseOptions
+sort multiple files

@@ -34,6 +34,7 @@ describe('createStream', function () {
 
 describe('performSort', function () {
   let onComplete, stream;
+
   beforeEach(() => {
     onComplete = sinon.spy();
     stream = { on: sinon.fake(), setEncoding: sinon.fake() };
@@ -52,7 +53,7 @@ describe('performSort', function () {
     assert.isTrue(onComplete.calledWith(expectedParameters));
   });
 
-  it('should sort same string taken from file when file have a line', () => {
+  it('should sort same string taken from file when file have one line', () => {
     const sortedContent = 'welcome to thoughtworks';
 
     performSort(stream, onComplete);// testing function
