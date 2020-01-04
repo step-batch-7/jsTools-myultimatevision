@@ -1,22 +1,22 @@
-const { assert } = require('chai');
+const {assert} = require('chai');
 const sinon = require('sinon');
-const { parseOptions, createStream, performSort } = require('../src/sortLib');
+const {parseOptions, createStream, performSort} = require('../src/sortLib');
 
 describe('parseOptions', function () {
   it('should return undefined when file was not given', () => {
     const actual = parseOptions(['node', 'sort.js']);
-    assert.deepStrictEqual(actual, { filePath: undefined });
+    assert.deepStrictEqual(actual, {filePath: undefined});
   });
 
   it('should return file when file was not given', () => {
     const actual = parseOptions(['node', 'sort.js', 'file_to_sort.txt']);
-    assert.deepStrictEqual(actual, { filePath: 'file_to_sort.txt' });
+    assert.deepStrictEqual(actual, {filePath: 'file_to_sort.txt'});
   });
 });
 
 describe('createStream', function () {
   it('should return stream when filepath is not defined', () => {
-    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
+    const stream = {on: sinon.fake(), setEncoding: sinon.fake()};
     const createStdin = sinon.fake.returns(stream);
     const createReadStream = sinon.fake();
     const actual = createStream(undefined, createStdin, createReadStream);
@@ -24,7 +24,7 @@ describe('createStream', function () {
   });
 
   it('should return createReadStream when filepath is defined', () => {
-    const stream = { on: sinon.fake(), setEncoding: sinon.fake() };
+    const stream = {on: sinon.fake(), setEncoding: sinon.fake()};
     const createStdin = sinon.fake();
     const createReadStream = sinon.fake.returns(stream);
     const actual = createStream('file.txt', createStdin, createReadStream);
@@ -37,11 +37,11 @@ describe('performSort', function () {
 
   beforeEach(() => {
     onComplete = sinon.spy();
-    stream = { on: sinon.fake(), setEncoding: sinon.fake() };
+    stream = {on: sinon.fake(), setEncoding: sinon.fake()};
   });
 
   it('should sort empty string when given file is empty', () => {
-    const expectedParameters = { error: '', sortedContent: '' };
+    const expectedParameters = {error: '', sortedContent: ''};
 
     performSort(stream, onComplete);// testing function
 
@@ -63,12 +63,12 @@ describe('performSort', function () {
     assert.strictEqual(stream.on.secondCall.args[0], 'data');
     assert.strictEqual(stream.on.thirdCall.args[0], 'end');
     assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith({ error: '', sortedContent }));
+    assert.isTrue(onComplete.calledWith({error: '', sortedContent}));
   });
 
   it('should sort data when given file has more than one line', () => {
     const sortedContent = 'thoughtworks\nto\nwelcome';
-    const expectedParameters = { error: '', sortedContent };
+    const expectedParameters = {error: '', sortedContent};
 
     performSort(stream, onComplete);// testing function
 
@@ -85,10 +85,10 @@ describe('performSort', function () {
 
     performSort(stream, onComplete);// testing function
 
-    stream.on.firstCall.args[1]({ code: 'ENOENT' });
+    stream.on.firstCall.args[1]({code: 'ENOENT'});
     assert.strictEqual(stream.on.firstCall.args[0], 'error');
     assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith({ sortedContent: '', error }));
+    assert.isTrue(onComplete.calledWith({sortedContent: '', error}));
   });
 
   it('should throw  is a directory error when file is not present', () => {
@@ -96,10 +96,10 @@ describe('performSort', function () {
 
     performSort(stream, onComplete);// testing function
 
-    stream.on.firstCall.args[1]({ code: 'EISDIR' });
+    stream.on.firstCall.args[1]({code: 'EISDIR'});
     assert.strictEqual(stream.on.firstCall.args[0], 'error');
     assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith({ sortedContent: '', error }));
+    assert.isTrue(onComplete.calledWith({sortedContent: '', error}));
   });
 
   it('should throw permission denied error when file is not present', () => {
@@ -107,10 +107,10 @@ describe('performSort', function () {
 
     performSort(stream, onComplete);// testing function
 
-    stream.on.firstCall.args[1]({ code: 'EACCES' });
+    stream.on.firstCall.args[1]({code: 'EACCES'});
     assert.strictEqual(stream.on.firstCall.args[0], 'error');
     assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith({ sortedContent: '', error }));
+    assert.isTrue(onComplete.calledWith({sortedContent: '', error}));
   });
 
   it('should read standard input and sort data when file is not given', () => {
@@ -127,7 +127,7 @@ describe('performSort', function () {
     assert.isTrue(stream.on.calledThrice);
     assert.isTrue(stream.on.thirdCall.calledAfter(stream.on.secondCall));
     assert.isTrue(stream.setEncoding.calledWith('utf8'));
-    assert.isTrue(onComplete.calledWith({ error: '', sortedContent }));
+    assert.isTrue(onComplete.calledWith({error: '', sortedContent}));
   });
 });
 

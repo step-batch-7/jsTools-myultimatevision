@@ -11,7 +11,7 @@ const sortContent = function (content) {
 
 const parseOptions = function (cmdLineArgs) {
   const [, , filePath] = cmdLineArgs;
-  return { filePath };
+  return {filePath};
 };
 
 const createStream = function (filePath, createStdin, createReadStream) {
@@ -22,15 +22,14 @@ const performSort = function (stream, onComplete) {
   let content = '';
   stream.setEncoding('utf8');
   stream.on('error', (err) => {
-    onComplete({ error: ERRORS[err.code], sortedContent: '' });
+    onComplete({error: ERRORS[err.code], sortedContent: ''});
   });
   stream.on('data', (data) => {
     content = content.concat(data);
   });
   stream.on('end', () => {
-    onComplete({ sortedContent: sortContent(content), error: '' });
+    onComplete({sortedContent: sortContent(content), error: ''});
   });
 };
 
-
-module.exports = { parseOptions, createStream, performSort };
+module.exports = {parseOptions, createStream, performSort};
