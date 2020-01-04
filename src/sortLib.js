@@ -9,12 +9,13 @@ const sortContent = function (content) {
   return lines.sort().join('\n');
 };
 
-const parseOptions = function (cmdLineArgs) {
+const parseOptions = function (cmdLineArgs, streamCreators) {
   const [, , filePath] = cmdLineArgs;
-  return {filePath};
+  const stream = createStream(filePath, streamCreators);
+  return {stream};
 };
 
-const createStream = function (filePath, createStdin, createReadStream) {
+const createStream = function (filePath, {createStdin, createReadStream}) {
   return filePath ? createReadStream(filePath) : createStdin();
 };
 

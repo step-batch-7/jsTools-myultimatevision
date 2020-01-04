@@ -3,14 +3,22 @@ const sinon = require('sinon');
 const {parseOptions, createStream, performSort} = require('../src/sortLib');
 
 describe('parseOptions', function () {
-  it('should return undefined when file was not given', () => {
-    const actual = parseOptions(['node', 'sort.js']);
-    assert.deepStrictEqual(actual, {filePath: undefined});
+  it('should create stdin stream when file was not given', () => {
+    const stream = {on: sinon.fake(), setEncoding: sinon.fake()};
+    const createStdin = sinon.fake.returns(stream);
+    const createReadStream = sinon.fake();
+    const args = ['node', 'sort.js'];
+    const actual = parseOptions(args, {createReadStream, createStdin});
+    assert.deepStrictEqual(actual, {stream});
   });
 
-  it('should return file when file was not given', () => {
-    const actual = parseOptions(['node', 'sort.js', 'file_to_sort.txt']);
-    assert.deepStrictEqual(actual, {filePath: 'file_to_sort.txt'});
+  it('should create readFile stream when file was not given', () => {
+    const stream = {on: sinon.fake(), setEncoding: sinon.fake()};
+    const createStdin = sinon.fake();
+    const createReadStream = sinon.fake.returns(stream);
+    const args = ['node', 'sort.js', 'file.txt'];
+    const actual = parseOptions(args, {createReadStream, createStdin});
+    assert.deepStrictEqual(actual, {stream});
   });
 });
 
@@ -19,7 +27,7 @@ describe('createStream', function () {
     const stream = {on: sinon.fake(), setEncoding: sinon.fake()};
     const createStdin = sinon.fake.returns(stream);
     const createReadStream = sinon.fake();
-    const actual = createStream(undefined, createStdin, createReadStream);
+    const actual = createStream(undefined, {createStdin, createReadStream});
     assert.strictEqual(actual, stream);
   });
 
@@ -27,7 +35,7 @@ describe('createStream', function () {
     const stream = {on: sinon.fake(), setEncoding: sinon.fake()};
     const createStdin = sinon.fake();
     const createReadStream = sinon.fake.returns(stream);
-    const actual = createStream('file.txt', createStdin, createReadStream);
+    const actual = createStream('file.txt', {createStdin, createReadStream});
     assert.strictEqual(actual, stream);
   });
 });
@@ -130,4 +138,3 @@ describe('performSort', function () {
     assert.isTrue(onComplete.calledWith({error: '', sortedContent}));
   });
 });
-
