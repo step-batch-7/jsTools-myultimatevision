@@ -12,25 +12,31 @@ const sortContent = function (content) {
 const parseOptions = function (cmdLineArgs, streamCreators) {
   const [, , filePath] = cmdLineArgs;
   const stream = createStream(filePath, streamCreators);
-  return {stream};
+  return { stream };
 };
 
-const createStream = function (filePath, {createStdin, createReadStream}) {
+const createStream = function (filePath, { createStdin, createReadStream }) {
   return filePath ? createReadStream(filePath) : createStdin();
 };
 
-const performSort = function (stream, onComplete) {
-  let content = '';
-  stream.setEncoding('utf8');
-  stream.on('error', (err) => {
-    onComplete({error: ERRORS[err.code], sortedContent: ''});
-  });
-  stream.on('data', (data) => {
-    content = content.concat(data);
-  });
-  stream.on('end', () => {
-    onComplete({sortedContent: sortContent(content), error: ''});
-  });
-};
+class ContentReader {
+  constructor(stream) {
+    this.stream = stream;
+  }
 
-module.exports = {parseOptions, createStream, performSort};
+  readContent(onComplete) {
+    let content = '';
+    this.stream.setEncoding('utf8');
+    this.stream.on('error', (err) => {
+      onComplete({ error: ERRORS[err.code], sortedContent: '' });
+    });
+    this.stream.on('data', (data) => {
+      content = content.concat(data);
+    });
+    this.stream.on('end', () => {
+      onComplete({ sortedContent: sortContent(content), error: '' });
+    });
+  }
+}
+
+module.exports = { parseOptions, createStream, ContentReader };
